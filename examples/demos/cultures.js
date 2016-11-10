@@ -19,28 +19,28 @@ let Cultures = React.createClass({
 
     return (
       <div {...this.props}>
-        <h3 className="callout">
-          <label>Select a Culture</label>
-          {' '}
-          <select
-            className='form-control'
-            style={{ width: 200, display: 'inline-block'}}
-            defaultValue={'fr'}
-            onChange={e => this.setState({ culture: e.target.value })}
-          >
-          {
-            cultures.map((c, idx) =>
-              <option key={idx} value={c}>{c}</option>
-            )
-          }
-          </select>
-        </h3>
-        <BigCalendar
-          rtl={rtl}
-          events={events}
-          culture={this.state.culture}
-          defaultDate={new Date(2015, 3, 1)}
-        />
+          <h3 className="callout">
+              <label>Select a Culture</label>
+              {' '}
+              <select
+                  className='form-control'
+                  style={{ width: 200, display: 'inline-block'}}
+                  defaultValue={'fr'}
+                  onChange={e => this.setState({ culture: e.target.value })}
+              >
+                  {
+                      cultures.map((c, idx) =>
+                          <option key={idx} value={c}>{c}</option>
+                      )
+                  }
+              </select>
+          </h3>
+          <BigCalendar
+              rtl={rtl}
+              events={events}
+              culture={this.state.culture}
+              defaultDate={new Date(2015, 3, 1)}
+          />
       </div>
     )
   }
