@@ -216,8 +216,8 @@ let MonthView = React.createClass({
 
     return (
       <EventEndingRow
-        {...this.props}
-        eventComponent={this.props.components.event}
+          {...this.props}
+          eventComponent={this.props.components.event}
         onSelect={this.handleSelectEvent}
         onShowMore={onClick}
         key={'last_row_' + weekIdx}

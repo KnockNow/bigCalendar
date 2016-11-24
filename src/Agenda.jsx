@@ -46,7 +46,7 @@ let Agenda = React.createClass({
     events = events.filter(event =>
       inRange(event, date, end, this.props)
     )
-
+    
     events.sort((a, b) => +get(a, startAccessor) - +get(b, startAccessor))
 
     return (

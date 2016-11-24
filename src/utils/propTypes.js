@@ -17,7 +17,6 @@ export let eventComponent = PropTypes.oneOfType([
   })
 ])
 
-
 let viewNames = Object.keys(Views).map(k => Views[k])
 
 export let accessor = PropTypes.oneOfType([

@@ -1,6 +1,26 @@
 @import './variables.less';
 @import './time-column.less';
 
+/*if you want all day Row */
+.allDayRow{
+    display: none;
+}
+
+/* New slot */
+.newSlot {
+    // display: none;
+    position:absolute;
+    left: 50%;
+    top: 50%;
+    width: 326px;
+    height: 118px;
+    margin-top: -59px;
+    margin-left: -163px;
+    background-color: #fff;
+    border: 1px solid #979797;
+    padding: 1em;
+}
+
 .rbc-slot-selection {
   z-index: 10;
   position: absolute;
@@ -17,8 +37,9 @@
   flex-direction: column;
   flex: 1;
   width: 100%;
-  border: 1px solid @calendar-border;
   min-height: 0;
+  padding: 2em;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 
   .rbc-time-gutter {
     white-space: nowrap;
@@ -41,7 +62,7 @@
   flex-direction: column;
 
   &.rbc-overflowing {
-    border-right: 1px solid @cell-border;
+    // border-right: 1px solid @cell-border;
   }
 
   .rbc-rtl &.rbc-overflowing {
@@ -50,7 +71,7 @@
   }
 
   > .rbc-row > * + * {
-    border-left: 1px solid @cell-border;
+    // border-left: 1px solid @cell-border;
   }
 
   .rbc-rtl & > .rbc-row > * + * {
@@ -59,7 +80,7 @@
   }
 
   > .rbc-row:first-child {
-    border-bottom: 1px solid  @cell-border;
+    // border-bottom: 1px solid  @cell-border;
   }
 
   .rbc-gutter-cell {
@@ -76,7 +97,7 @@
   flex: 1 0 0%;
   align-items: flex-start;
   width: 100%;
-  border-top: 2px solid @calendar-border;
+  // border-top: 2px solid @calendar-border;
   overflow-y: auto;
   position: relative;
 
@@ -85,7 +106,7 @@
   }
 
   > * + * > * {
-    border-left: 1px solid @cell-border;
+    // border-left: 1px solid @cell-border;
   }
 
   .rbc-rtl & > * + * > * {

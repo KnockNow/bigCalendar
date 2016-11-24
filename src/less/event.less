@@ -6,9 +6,12 @@
   background-color: @event-bg;
   border-radius: @event-border-radius;
   color: @event-color;
+  padding: 1em;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 
   &.rbc-selected {
     background-color: darken(@event-bg, 10%);
+    z-index: 2;
   }
 }
 

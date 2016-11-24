@@ -35,7 +35,7 @@
 
 .rbc-month-view {
   position: relative;
-  border: 1px solid @calendar-border;
+  // border: 1px solid @calendar-border;
   display: flex;
   flex-direction: column;
   flex: 1 0 0;
@@ -48,7 +48,7 @@
   }
 
   .rbc-header + .rbc-header {
-    border-left: 1px solid @cell-border;
+    // border-left: 1px solid @cell-border;
   }
 
   .rbc-rtl & .rbc-header + .rbc-header {
@@ -81,7 +81,11 @@
   text-align: right;
 
   &.rbc-now {
-    font-weight: bold;
+    & a {
+        background-color: #ff6c6c;
+        padding: 4px;
+        color: #fff;
+    }
   }
 
   > a {

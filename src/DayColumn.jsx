@@ -156,147 +156,147 @@ let DaySlot = React.createClass({
 
       return (
         <div
-          key={'evt_' + idx}
-          style={{...xStyle, ...style}}
-          title={label + ': ' + title }
-          onClick={this._select.bind(null, event)}
-          className={cn('rbc-event', className, {
-            'rbc-selected': _isSelected,
-            'rbc-event-overlaps': lastLeftOffset !== 0
-          })}
+            key={'evt_' + idx}
+            style={{...xStyle, ...style}}
+            title={label + ': ' + title }
+            onClick={this._select.bind(null, event)}
+            className={cn('rbc-event', className, {
+                'rbc-selected': _isSelected,
+                'rbc-event-overlaps': lastLeftOffset !== 0
+            })}
         >
-          <div className='rbc-event-label'>{label}</div>
-          <div className='rbc-event-content'>
-            { EventComponent
-              ? <EventComponent event={event} title={title}/>
-              : title
-            }
-          </div>
+            <div className='rbc-event-content'>
+                { EventComponent
+                    ? <EventComponent event={event} title={title}/>
+                    : title
+                }
+            </div>
+            {/* <div className='rbc-event-label'>{label}</div> */}
         </div>
-      )
-    })
-  },
-
-  _slotStyle(startSlot, endSlot, leftOffset){
-
-    endSlot = Math.max(endSlot, startSlot + this.props.step) //must be at least one `step` high
-
-    let eventOffset = this.props.eventOffset || 10
-      , isRtl = this.props.rtl;
-
-    let top = ((startSlot / this._totalMin) * 100);
-    let bottom = ((endSlot / this._totalMin) * 100);
-    let per = leftOffset === 0 ? 0 : leftOffset * eventOffset;
-    let rightDiff = (eventOffset / (leftOffset + 1));
-
-    return {
-      top: top + '%',
-      height: bottom - top + '%',
-      [isRtl ? 'right' : 'left']: per + '%',
-      width: (leftOffset === 0 ? (100 - eventOffset) : (100 - per) - rightDiff) + '%'
-    }
-  },
-
-  _selectable(){
-    let node = findDOMNode(this);
-    let selector = this._selector = new Selection(()=> findDOMNode(this))
-
-    let maybeSelect = (box) => {
-      let onSelecting = this.props.onSelecting
-      let current = this.state || {};
-      let state = selectionState(box);
-      let { startDate: start, endDate: end } = state;
-
-      if (onSelecting) {
-        if (
-          (dates.eq(current.startDate, start, 'minutes') &&
-          dates.eq(current.endDate, end, 'minutes')) ||
-          onSelecting({ start, end }) === false
         )
-          return
-      }
+                    })
+                    },
 
-      this.setState(state)
-    }
+                    _slotStyle(startSlot, endSlot, leftOffset){
 
-    let selectionState = ({ y }) => {
-      let { step, min, max } = this.props;
-      let { top, bottom } = getBoundsForNode(node)
+                        endSlot = Math.max(endSlot, startSlot + this.props.step) //must be at least one `step` high
 
-      let mins = this._totalMin;
+                        let eventOffset = this.props.eventOffset || 10
+                        , isRtl = this.props.rtl;
 
-      let range = Math.abs(top - bottom)
+                        let top = ((startSlot / this._totalMin) * 100);
+                        let bottom = ((endSlot / this._totalMin) * 100);
+                        let per = leftOffset === 0 ? 0 : leftOffset * eventOffset;
+                        let rightDiff = (eventOffset / (leftOffset + 1));
 
-      let current = (y - top) / range;
+                        return {
+                            top: top + '%',
+                            height: bottom - top + '%',
+                            [isRtl ? 'right' : 'left']: per + '%',
+                            width: (leftOffset === 0 ? (100 - eventOffset) : (100 - per) - rightDiff) + '%'
+                        }
+                    },
 
-      current = snapToSlot(minToDate(mins * current, min), step)
+                    _selectable(){
+                        let node = findDOMNode(this);
+                        let selector = this._selector = new Selection(()=> findDOMNode(this))
 
-      if (!this.state.selecting)
-        this._initialDateSlot = current
+                        let maybeSelect = (box) => {
+                            let onSelecting = this.props.onSelecting
+                            let current = this.state || {};
+                            let state = selectionState(box);
+                            let { startDate: start, endDate: end } = state;
 
-      let initial = this._initialDateSlot;
+                            if (onSelecting) {
+                                if (
+                                (dates.eq(current.startDate, start, 'minutes') &&
+                                dates.eq(current.endDate, end, 'minutes')) ||
+                                onSelecting({ start, end }) === false
+                                )
+                                return
+                            }
 
-      if (dates.eq(initial, current, 'minutes'))
-        current = dates.add(current, step, 'minutes')
+                            this.setState(state)
+                        }
 
-      let start = dates.max(min, dates.min(initial, current))
-      let end = dates.min(max, dates.max(initial, current))
+                        let selectionState = ({ y }) => {
+                            let { step, min, max } = this.props;
+                            let { top, bottom } = getBoundsForNode(node)
 
-      return {
-        selecting: true,
-        startDate: start,
-        endDate: end,
-        startSlot: positionFromDate(start, min, step),
-        endSlot: positionFromDate(end, min, step)
-      }
-    }
+                            let mins = this._totalMin;
 
-    selector.on('selecting', maybeSelect)
-    selector.on('selectStart', maybeSelect)
+                            let range = Math.abs(top - bottom)
 
-    selector
-      .on('click', ({ x, y }) => {
-        this._clickTimer = setTimeout(()=> {
-          this._selectSlot(selectionState({ x, y }))
-        })
+                            let current = (y - top) / range;
 
-        this.setState({ selecting: false })
-      })
+                            current = snapToSlot(minToDate(mins * current, min), step)
 
-    selector
-      .on('select', () => {
-        if (this.state.selecting) {
-          this._selectSlot(this.state)
-          this.setState({ selecting: false })
-        }
-      })
-  },
+                            if (!this.state.selecting)
+                            this._initialDateSlot = current
 
-  _teardownSelectable() {
-    if (!this._selector) return
-    this._selector.teardown();
-    this._selector = null;
-  },
+                            let initial = this._initialDateSlot;
 
-  _selectSlot({ startDate, endDate }) {
-    let current = startDate
-      , slots = [];
+                            if (dates.eq(initial, current, 'minutes'))
+                            current = dates.add(current, step, 'minutes')
 
-    while (dates.lte(current, endDate)) {
-      slots.push(current)
-      current = dates.add(current, this.props.step, 'minutes')
-    }
+                            let start = dates.max(min, dates.min(initial, current))
+                            let end = dates.min(max, dates.max(initial, current))
 
-    notify(this.props.onSelectSlot, {
-      slots,
-      start: startDate,
-      end: endDate
-    })
-  },
+                            return {
+                                selecting: true,
+                                startDate: start,
+                                endDate: end,
+                                startSlot: positionFromDate(start, min, step),
+                                endSlot: positionFromDate(end, min, step)
+                            }
+                        }
 
-  _select(event){
-    clearTimeout(this._clickTimer);
-    notify(this.props.onSelectEvent, event)
+                        selector.on('selecting', maybeSelect)
+                        selector.on('selectStart', maybeSelect)
+
+                        selector
+                        .on('click', ({ x, y }) => {
+                            this._clickTimer = setTimeout(()=> {
+                                this._selectSlot(selectionState({ x, y }))
+                            })
+
+                            this.setState({ selecting: false })
+                        })
+
+                        selector
+                        .on('select', () => {
+                            if (this.state.selecting) {
+                                this._selectSlot(this.state)
+                                this.setState({ selecting: false })
+                            }
+                        })
+                    },
+
+                    _teardownSelectable() {
+                        if (!this._selector) return
+                        this._selector.teardown();
+                        this._selector = null;
+                    },
+
+                    _selectSlot({ startDate, endDate }) {
+                        let current = startDate
+                        , slots = [];
+
+                        while (dates.lte(current, endDate)) {
+                            slots.push(current)
+                            current = dates.add(current, this.props.step, 'minutes')
+                        }
+
+                        notify(this.props.onSelectSlot, {
+                            slots,
+                            start: startDate,
+                            end: endDate
+                        })
+                    },
+
+                    _select(event){
+                        clearTimeout(this._clickTimer);
+                        notify(this.props.onSelectEvent, event)
   }
 });
 

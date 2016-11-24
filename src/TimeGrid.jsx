@@ -143,22 +143,22 @@ export default class TimeGrid extends Component {
 
     return (
       <div className='rbc-time-view'>
-        {
-          this.renderHeader(range, segments, width)
-        }
-        <div ref='content' className='rbc-time-content'>
-          <div ref='timeIndicator' className='rbc-current-time-indicator'></div>
-          <TimeColumn
-            {...this.props}
-            showLabels
-            style={{ width }}
-            ref={gutterRef}
-            className='rbc-time-gutter'
-          />
           {
-            this.renderEvents(range, rangeEvents, this.props.now)
+              this.renderHeader(range, segments, width)
           }
-        </div>
+          <div ref='content' className='rbc-time-content'>
+              <div ref='timeIndicator' className='rbc-current-time-indicator'></div>
+              <TimeColumn
+                  {...this.props}
+                  showLabels
+                  style={{ width }}
+                  ref={gutterRef}
+                  className='rbc-time-gutter'
+              />
+              {
+                  this.renderEvents(range, rangeEvents, this.props.now)
+              }
+          </div>
       </div>
     );
   }
@@ -175,15 +175,15 @@ export default class TimeGrid extends Component {
 
       return (
         <DayColumn
-          {...this.props }
-          min={dates.merge(date, min)}
-          max={dates.merge(date, max)}
-          eventComponent={components.event}
-          className={cn({ 'rbc-now': dates.eq(date, today, 'day') })}
-          style={segStyle(1, this._slots)}
-          key={idx}
-          date={date}
-          events={daysEvents}
+            {...this.props }
+            min={dates.merge(date, min)}
+            max={dates.merge(date, max)}
+            eventComponent={components.event}
+            className={cn({ 'rbc-now': dates.eq(date, today, 'day') })}
+            style={segStyle(1, this._slots)}
+            key={idx}
+            date={date}
+            events={daysEvents}
         />
       )
     })
@@ -197,19 +197,19 @@ export default class TimeGrid extends Component {
 
     return levels.map((segs, idx) =>
       <EventRow
-        eventComponent={this.props.components.event}
-        titleAccessor={this.props.titleAccessor}
-        startAccessor={this.props.startAccessor}
-        endAccessor={this.props.endAccessor}
-        allDayAccessor={this.props.allDayAccessor}
-        eventPropGetter={this.props.eventPropGetter}
-        selected={this.props.selected}
-        onSelect={this._selectEvent}
-        slots={this._slots}
-        key={idx}
-        segments={segs}
-        start={first}
-        end={last}
+          eventComponent={this.props.components.event}
+          titleAccessor={this.props.titleAccessor}
+          startAccessor={this.props.startAccessor}
+          endAccessor={this.props.endAccessor}
+          allDayAccessor={this.props.allDayAccessor}
+          eventPropGetter={this.props.eventPropGetter}
+          selected={this.props.selected}
+          onSelect={this._selectEvent}
+          slots={this._slots}
+          key={idx}
+          segments={segs}
+          start={first}
+          end={last}
       />
     )
   }
@@ -235,40 +235,40 @@ export default class TimeGrid extends Component {
 
     return (
       <div
-        ref='headerCell'
-        className={cn(
-          'rbc-time-header',
-          isOverflowing && 'rbc-overflowing'
-        )}
-        style={style}
+          ref='headerCell'
+          className={cn(
+              'rbc-time-header',
+              isOverflowing && 'rbc-overflowing'
+          )}
+          style={style}
       >
-        <div className='rbc-row'>
-          <div
-            className='rbc-label rbc-header-gutter'
-            style={{ width }}
-          />
-          { this.renderHeaderCells(range) }
-        </div>
-        <div className='rbc-row'>
-          <div
-            ref={ref => this._gutters[0] = ref}
-            className='rbc-label rbc-header-gutter'
-            style={{ width }}
-          >
-            { message(messages).allDay }
+          <div className='rbc-row'>
+              <div
+                  className='rbc-label rbc-header-gutter'
+                  style={{ width }}
+              />
+              { this.renderHeaderCells(range) }
           </div>
-          <div ref='allDay' className='rbc-allday-cell'>
-            <BackgroundCells
-              slots={range.length}
-              container={()=> this.refs.allDay}
-              selectable={this.props.selectable}
-              onSelectSlot={handleSelectSlot}
-            />
-            <div style={{ zIndex: 1, position: 'relative' }}>
-              {this.renderAllDayEvents(range, levels)}
-            </div>
+          <div className='rbc-row allDayRow'>
+              <div
+                  ref={ref => this._gutters[0] = ref}
+                  className='rbc-label rbc-header-gutter'
+                  style={{ width }}
+              >
+                  { message(messages).allDay }
+              </div>
+              <div ref='allDay' className='rbc-allday-cell'>
+                  <BackgroundCells
+                      slots={range.length}
+                      container={()=> this.refs.allDay}
+                      selectable={this.props.selectable}
+                      onSelectSlot={handleSelectSlot}
+                  />
+                  <div style={{ zIndex: 1, position: 'relative' }}>
+                      {this.renderAllDayEvents(range, levels)}
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
     )
   }
@@ -279,18 +279,18 @@ export default class TimeGrid extends Component {
 
     return range.map((date, i) =>
       <div
-        key={i}
-        className={cn('rbc-header', { 'rbc-today': dates.isToday(date) })}
-        style={segStyle(1, this._slots)}
+          key={i}
+          className={cn('rbc-header', { 'rbc-today': dates.isToday(date) })}
+          style={segStyle(1, this._slots)}
       >
-        <a href='#' onClick={this._headerClick.bind(null, date)}>
-          <HeaderComponent
-            date={date}
-            label={localizer.format(date, dayFormat, culture)}
-            localizer={localizer}
-            format={dayFormat}
-            culture={culture} />
-        </a>
+          <a href='#' onClick={this._headerClick.bind(null, date)}>
+              <HeaderComponent
+                  date={date}
+                  label={localizer.format(date, dayFormat, culture)}
+                  localizer={localizer}
+                  format={dayFormat}
+                  culture={culture} />
+          </a>
       </div>
     )
   }
